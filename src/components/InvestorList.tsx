@@ -1,13 +1,5 @@
 import React from "react";
 
-interface Investor {
-  id: number;
-  name: string;
-  type: string;
-  country: string;
-  total_commitments: number;
-}
-
 const InvestorList: React.FC<{
   investors: Investor[];
   onSelect: (id: number) => void;

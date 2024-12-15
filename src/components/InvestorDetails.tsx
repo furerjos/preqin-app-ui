@@ -1,29 +1,12 @@
 import React from "react";
 
-interface Commitment {
-  asset_class: string;
-  amount: number;
-  currency: string;
-}
-
-interface InvestorDetailsProps {
-  id: number;
-  name: string;
-  type: string;
-  country: string;
-  date_added: string;
-  last_updated: string;
-  commitments: Commitment[];
-  assetClassFilter: string;
-  setAssetClassFilter: (assetClass: string) => void;
-}
-
 const InvestorDetails: React.FC<InvestorDetailsProps> = ({
   name,
   type,
   country,
   date_added,
   last_updated,
+  total_commitments,
   commitments,
   assetClassFilter,
   setAssetClassFilter,
@@ -34,34 +17,41 @@ const InvestorDetails: React.FC<InvestorDetailsProps> = ({
     : commitments;
 
   return (
-    <div className="max-w-4xl mx-auto bg-white shadow-md rounded p-6">
-      {/* Investor Info */}
-      <h2 className="text-3xl font-bold mb-4">{name}</h2>
-      <p className="mb-2">
-        <span className="font-bold">Type:</span> {type}
-      </p>
-      <p className="mb-2">
-        <span className="font-bold">Country:</span> {country}
-      </p>
-      <p className="mb-2">
-        <span className="font-bold">Date Added:</span> {date_added}
-      </p>
-      <p className="mb-4">
-        <span className="font-bold">Last Updated:</span> {last_updated}
-      </p>
+    <div>
+      {/* Investor Details */}
+      <div className="p-4 border-b border-gray-300">
+        <h2 className="text-xl font-bold">{name}</h2>
+        <p>
+          <strong>Type:</strong> {type}
+        </p>
+        <p>
+          <strong>Country:</strong> {country}
+        </p>
+        <p>
+          <strong>Date Added:</strong> {new Date(date_added).toLocaleDateString()}
+        </p>
+        <p>
+          <strong>Last Updated:</strong> {new Date(last_updated).toLocaleDateString()}
+        </p>
+        <p>
+          <strong>Total Commitments (GBP):</strong> £{total_commitments.toLocaleString()}
+        </p>
+      </div>
 
       {/* Asset Class Filter */}
-      <div className="mb-4 flex items-center space-x-4">
-        <label htmlFor="assetClass" className="font-bold">
+      <div className="p-4 border-b border-gray-300">
+        <label htmlFor="assetClass" className="block text-sm font-medium text-gray-700">
           Filter by Asset Class:
         </label>
         <select
           id="assetClass"
           value={assetClassFilter}
           onChange={(e) => setAssetClassFilter(e.target.value)}
-          className="border rounded p-2"
+          className="mt-1 inline-block w-auto pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
         >
           <option value="">All</option>
+          {/* new Set -> Creates set and removes duplicates */}
+          {/* [...new Set()] converts the Set into an array to use .map for rendering options in dropdown */}
           {[...new Set(commitments.map((c) => c.asset_class))].map((assetClass) => (
             <option key={assetClass} value={assetClass}>
               {assetClass}
@@ -70,26 +60,27 @@ const InvestorDetails: React.FC<InvestorDetailsProps> = ({
         </select>
       </div>
 
-      {/* Commitments Table */}
-      <h3 className="text-xl font-bold mb-4">Commitments</h3>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Asset Class</th>
-            <th>Amount</th>
-            <th>Currency</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredCommitments.map((c, index) => (
-            <tr key={index}>
-              <td>{c.asset_class}</td>
-              <td>{c.amount.toLocaleString()}</td>
-              <td>{c.currency}</td>
+       {/* Commitments Table */}
+       <div className="p-4">
+        <table className="table-auto w-full border-collapse border border-gray-200">
+          <thead>
+            <tr>
+              <th className="border border-gray-300 px-4 py-2">Asset Class</th>
+              <th className="border border-gray-300 px-4 py-2">Amount</th>
+              <th className="border border-gray-300 px-4 py-2">Currency</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredCommitments.map((c, index) => (
+              <tr key={index}>
+                <td className="border border-gray-300 px-4 py-2">{c.asset_class}</td>
+                <td className="border border-gray-300 px-4 py-2">£{c.amount.toLocaleString()}</td>
+                <td className="border border-gray-300 px-4 py-2">{c.currency}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

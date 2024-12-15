@@ -1,5 +1,6 @@
 const BASE_URL = "http://127.0.0.1:8000/api";
 
+// Endpoint for Investor List + Total Commitments per Investor
 export const fetchInvestors = async () => {
     const response = await fetch(`${BASE_URL}/investors`, {
       headers: {
@@ -11,7 +12,8 @@ export const fetchInvestors = async () => {
     }
     return response.json();
   };
-  
+
+  // Endpoint for Investor Detail List
   export const fetchInvestorDetails = async (id: number, assetClass?: string) => {
     const url = assetClass
       ? `${BASE_URL}/investors/${id}?asset_class=${encodeURIComponent(assetClass)}`

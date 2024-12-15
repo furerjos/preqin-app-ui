@@ -3,23 +3,6 @@ import { useEffect, useState } from "react";
 import InvestorDetails from "../../components/InvestorDetails";
 import { fetchInvestorDetails } from "../../utils/api";
 
-// Define types for the investor data
-interface Commitment {
-  asset_class: string;
-  amount: number;
-  currency: string;
-}
-
-interface Investor {
-  id: number;
-  name: string;
-  type: string;
-  country: string;
-  date_added: string;
-  last_updated: string;
-  commitments: Commitment[];
-}
-
 const InvestorPage = () => {
   const router = useRouter();
   const { id } = router.query;
