@@ -1,21 +1,26 @@
+/* Tailwind base styles already imported by default */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Global styles for tables */
+.table {
+  @apply table-auto border-collapse border border-gray-300 w-full text-sm;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.table th,
+.table td {
+  @apply border border-gray-300 px-4 py-2 text-left;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+.table th {
+  @apply bg-gray-100 font-bold text-center;
+}
+
+.table tr:nth-child(even) {
+  @apply bg-gray-50;
+}
+
+.table tr:hover {
+  @apply bg-gray-200;
 }
